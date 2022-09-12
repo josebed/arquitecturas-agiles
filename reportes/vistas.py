@@ -1,34 +1,16 @@
-from flask import request
 from flask_restful import Resource
-from modelos import db, ReglasAperturas, ReglasAperturasSchema
+import sqlite3
 
-class AgregarRegla(Resource):
 
-    def post(self):
-            try:
-                nuevo_regla = ReglasAperturas(
-                    tipo='apertura',
-                    usuario=request.json["usuario"],
-                    objeto=request.json["objeto"],
-                    monitor=request.json["monitor"],
-                    cerrada=request.json["cerrada"],
-                    abierta=request.json["abierta"],
-                )
-                db.session.add(nuevo_regla)
-                db.session.commit()
+class ConsultarReglaApertura(Resource):
 
-                return {"mensaje": "Regla creada exitosamente", "id": nuevo_regla.id}
-            except Exception as e:
-                print(e)
-                return {"mensaje": f"falta {e}"}
-
-    def put(self, id_regla):
-        nuevo_regla = ReglasAperturas.query.get_or_404(id_regla)
-        nuevo_regla.cerrada = request.json.get("cerrada", nuevo_regla.cerrada)
-        nuevo_regla.abierta = request.json.get("abierta", nuevo_regla.abierta)
-        db.session.commit()
-        return ReglasAperturasSchema.dump(nuevo_regla)
-
-class VistaRoot(Resource):
-    def get(self):
-        return {"MicroService": "E-PORRA is Ready v1"}
+    def get(self, id_regla):
+        db_connection = sqlite3.connect("../monitor_aperturas/monitor_aperturas.db")
+        cur = db_connection.cursor()
+        cur.execute('SELECT * from reglas_aperturas where id ={}'.format(id_regla))
+        regla = cur.fetchone()
+        if not regla:
+            return {"code": 404, "message": "Not found"}
+        db_connection.close()
+        return {"id": regla[0], "usuario": regla[1], "objeto_apertura": regla[2], "temporizador": regla[3],
+                "hora_apertura": regla[4], "hora_cierre": regla[5], "fecha_creacion": regla[6]}

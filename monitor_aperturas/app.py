@@ -19,8 +19,6 @@ api.add_resource(AgregarRegla, '/monitor_aperturas/reglas')
 api.add_resource(VistaRoot, '/')
 
 if __name__ == '__main__':
-
-
-    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.ERROR)
+    logging.basicConfig(filename='example.csv', encoding='utf-8', level=logging.ERROR)
     logging.error('Errores de servicio')
     app.run(debug=True, host='0.0.0.0', port=5002)
