@@ -19,11 +19,15 @@ def setup_periodic_tasks(sender, **kwargs):
 @app.task
 def add(x, y):
     if random.randrange(0, 100) > 75:
-        url = " http://localhost:5020/hearbeat"
-        pyload = {"mensaje": "ok"}
+        url = "http://localhost:5020/hearbeat"
+        pyload = {"mensaje": "ok", }
         metodo = "POST"
         requests.request(metodo, url=url, json=pyload)
     else:
+        url = "http://localhost:5020/hearbeat"
+        pyload = {"mensaje": "error", }
+        metodo = "POST"
+        requests.request(metodo, url=url, json=pyload)
         logger = logging.getLogger('mylogger')
         logger.setLevel(logging.ERROR)
         handler = logging.FileHandler('log_hearbeat_consumer_app.log')
