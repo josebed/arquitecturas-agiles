@@ -21,6 +21,25 @@ se ingresas a cada apliacion y se ejecuta el comando
 $ python3 app.py
 ```
 
+para levantar el hearbeat se debe hacer lo siguiente
+desde la carpeta de monitor_apertura
+
+```sh
+$ celery -A config_heartbeat.celery worker --loglevel=info
+```
+```sh
+$ celery -A config_heartbeat.celery beat --loglevel=info
+```
+En la carpeta Pruebas
+```sh
+$ celery -A config_celey.celery worker --loglevel=INFO
+
+```
+```sh
+$ celery -A config_celey.celery beat --loglevel=INFO
+
+```
+
 ## Descripción de los servicios
 
 Esta rama (main) muestra la comunicación entre servicios de manera asíncrona e implementa el patrón CQRS. Para la comunicación asíncrona se utiliza Redis como plataforma de mensajería.
