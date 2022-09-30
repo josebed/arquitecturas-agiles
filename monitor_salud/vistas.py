@@ -9,6 +9,8 @@ class AgregarRegla(Resource):
                 db.session.query().with_entities().filter(ReglasServicosSalud.id == id_regla).all()]
 
     def post(self):
+        if "token" == True:
+            pass
             try:
                 nuevo_regla = ReglasServicosSalud(
                     usuario=request.json["usuario"],

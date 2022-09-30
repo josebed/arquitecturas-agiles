@@ -13,7 +13,8 @@ class ReglasAperturas(db.Model):
     hora_cierre = db.Column(db.String(50))
     fecha_creacion = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-
+class Llave(db.Model):
+    pass
 
 class ReglasAperturasSchema(SQLAlchemyAutoSchema):
     class Meta:
