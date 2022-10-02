@@ -11,6 +11,8 @@ class Usuario(db.Model):
     tipo = db.Column(db.String(30))
     usuario = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
+    codigo_seguridad = db.Column(db.String(50))
+    erro_login = db.Column(db.Numeric)
 
 class UsuarioSchema(SQLAlchemyAutoSchema):
     class Meta:
