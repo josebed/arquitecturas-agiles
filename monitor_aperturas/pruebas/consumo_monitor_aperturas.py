@@ -1,11 +1,8 @@
-from email import header
 from faker import Faker
-import faker
 import requests
 
 from faker.generator import random
 import random
-from datetime import datetime
 
 from typing import Dict, Any
 import hashlib
