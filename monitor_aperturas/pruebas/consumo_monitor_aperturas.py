@@ -1,3 +1,4 @@
+from email import header
 from faker import Faker
 import faker
 import requests
@@ -25,6 +26,19 @@ def generate_hash(req_json: Dict[str, Any], codigo_seguridad):
     codigo_hash.update(codigo_seguridad_encoded)
     return codigo_hash.hexdigest()
 
+def login(num_usuario):
+    json_login = {
+        "usuario": "usuario" + num_usuario,
+        "contrasena": "12345"
+    }
+    url = "http://localhost:5080/login"
+
+    response_login = requests.post(url = url, json=json_login)
+    if(response_login.status_code ==200):
+        return response_login.json()
+    return False
+
+
 class TestAperturas():
 
     def setUp(self):
@@ -38,24 +52,33 @@ class TestAperturas():
 
 if __name__ == "__main__":
     
-    id_usuario = 1
-    codigo_seguridad = '123456'
-    usuario_token = "asdfghjklqwertyuiopzxcvbnm"
     data_factory = Faker()
-    url="http://localhost:5002/monitor_aperturas/{}/reglas".format(id_usuario)
 
-    for i in range(10):
+    for i in range(100):
+        
+        num_usuario = str(data_factory.random_int(1, 5))         
+
+        login_data = login(num_usuario)
+        if (not login_data):
+            continue
+
+        id_usuario = login_data['usuario_id']
+        codigo_seguridad = login_data['codigo_seguridad']
+        usuario_token = login_data["token"]
+
+        headers = {'Content-Type': 'application/json', "Authorization": "Bearer {}".format(usuario_token)}
+        url="http://localhost:5002/monitor_aperturas/{}/reglas".format(id_usuario)
 
         payload=TestAperturas().setUp()
         request_hash = generate_hash(payload, codigo_seguridad)
         payload["hash"] = request_hash
         caso_aleatorio = random.randrange(0, 100)
         if caso_aleatorio > 66:            
-            response = requests.request("POST", url=url, json=payload)
+            response = requests.request("POST", headers=headers, url=url, json=payload)
             
         elif caso_aleatorio > 33:
            payload["objeto_apertura"] = data_factory.word()
-           response = requests.request("POST", url=url, json=payload)
+           response = requests.request("POST", headers=headers, url=url, json=payload)
            if(response.status_code == 200):
                 log_data = {"id_usuario":id_usuario}
                 logging.error("Se introdujo tampering", extra=log_data)
@@ -63,5 +86,5 @@ if __name__ == "__main__":
         else:
             log_data = {"id_usuario":id_usuario}
             logging.error("Se introdujo spoofing", extra=log_data)
-            token_enviar = usuario_token + "a"
+            headers = {'Content-Type': 'application/json', "Authorization": "Bearer {}".format(usuario_token + "a")}            
             response = requests.request("POST", url=url, json=payload)

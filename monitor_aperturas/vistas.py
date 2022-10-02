@@ -1,4 +1,7 @@
+from base64 import encode
 import code
+import sqlite3
+
 from core.add_hash import generate_hash
 from flask import request
 from flask_jwt_extended import jwt_required
@@ -6,10 +9,12 @@ from flask_restful import Resource
 from modelos import db, ReglasAperturas, ReglasAperturasSchema
 import logging
 
-FORMAT = '%(asctime)s; %(clientip)s; usuario=%(id_usuario)s; %(message)s'
-logging.basicConfig(filename='security_monitor_aperturas.log', format=FORMAT, filemode="w")
-logging.getLogger('root').setLevel(logging.ERROR)
-logging.getLogger('werkzeug').setLevel(logging.ERROR)
+#FORMAT = '%(asctime)s; %(clientip)s; usuario=%(id_usuario)s; %(message)s'
+FORMAT = '%(asctime)s ~ %(levelname)s ~ %(message)s'
+#logging.basicConfig(filename='security_monitor_aperturas.log', format=FORMAT, filemode="w")
+logging.basicConfig(filename='monitoring_aperturas_all_events.log', filemode="w", format=FORMAT)
+#logging.getLogger('root').setLevel(logging.ERROR)
+#logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 
 class AgregarRegla(Resource):
@@ -22,7 +27,15 @@ class AgregarRegla(Resource):
     @jwt_required()
     def post(self,id_usuario):
 
-            codigo_seguridad = '123456'
+            db_connection = sqlite3.connect("../usuarios/usuarios.db")
+            cur = db_connection.cursor()
+            cur.execute('SELECT codigo_seguridad from usuario where id ={}'.format(id_usuario))
+            usuario = cur.fetchone()
+            if not usuario:
+                return {"code": 404, "message": "Not found"}
+            db_connection.close()
+            codigo_seguridad = usuario[0]  
+
             hash_enviado= request.json["hash"]
             request_regla = request.json
             request_regla.pop("hash")
