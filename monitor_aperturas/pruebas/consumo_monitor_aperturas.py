@@ -44,7 +44,7 @@ if __name__ == "__main__":
     data_factory = Faker()
     url="http://localhost:5002/monitor_aperturas/{}/reglas".format(id_usuario)
 
-    for i in range(100):
+    for i in range(10):
 
         payload=TestAperturas().setUp()
         request_hash = generate_hash(payload, codigo_seguridad)
@@ -65,9 +65,3 @@ if __name__ == "__main__":
             logging.error("Se introdujo spoofing", extra=log_data)
             token_enviar = usuario_token + "a"
             response = requests.request("POST", url=url, json=payload)
-
-
-
-
-
-

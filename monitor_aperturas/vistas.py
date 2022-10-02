@@ -14,11 +14,12 @@ logging.getLogger('werkzeug').setLevel(logging.ERROR)
 
 class AgregarRegla(Resource):
 
+    @jwt_required()
     def get(self, id_regla):
         return [ReglasAperturasSchema.dump(ap) for ap in
                 db.session.query().with_entities().filter(ReglasAperturas.id == id_regla).all()]
     
-    #@jwt_required()
+    @jwt_required()
     def post(self,id_usuario):
 
             codigo_seguridad = '123456'
@@ -43,7 +44,7 @@ class AgregarRegla(Resource):
 
             return {"mensaje": "Regla creada exitosamente", "id": nuevo_regla.id}
 
-    #@jwt_required()
+    @jwt_required()
     def put(self, id_regla):
 
         codigo_seguridad = '123456'
