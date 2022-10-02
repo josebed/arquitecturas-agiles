@@ -22,4 +22,5 @@ api.add_resource(VistaRoot, '/')
 
 if __name__ == '__main__':
     logging.basicConfig(filename="log_motitor_ambiente.log")
+    logging.getLogger().setLevel(logging.error)
     app.run(debug=True, host='0.0.0.0', port=5010)

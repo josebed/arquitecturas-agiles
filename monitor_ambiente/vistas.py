@@ -1,18 +1,33 @@
 import logging
+import sqlite3
 
 from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from modelos import db, ReglasAmbiente, ReglasAmbienteSchema
 from monitor_ambiente import logger
 
 
 class AgregarRegla(Resource):
-
+    
+    @jwt_required
     def get(self, id_regla):
         return [ReglasAmbiente.dump(ap) for ap in
                 db.session.query().with_entities().filter(ReglasAmbienteSchema.id == id_regla).all()]
-
+    
+    @jwt_required
     def post(self):
+
+            db_connection = sqlite3.connect("../usuarios/usuarios.db")
+            cur = db_connection.cursor()
+            cur.execute('SELECT codigo_seguridad from usuario where id ={}'.format(id_usuario))
+            usuario = cur.fetchone()
+            if usuarion is None:
+                return {'code':404, "message": "not found"}
+            db_connection.close()
+            codigo_seguridad = usuario[0]
+            hash_enviado = request.json['hash']
+            request_regla = request.json
             try:
                 nuevo_regla = ReglasAmbiente(
                     usuario=request.json["usuario"],
@@ -29,7 +44,8 @@ class AgregarRegla(Resource):
             except Exception as e:
                 logger.error(f'This is an ERROR message {e}')
                 return {"mensaje": f"falta {e}"}
-
+    
+    @jwt_required
     def put(self, id_regla):
         nuevo_regla = ReglasAmbiente.query.get_or_404(id_regla)
         nuevo_regla.periodo = request.json.get("periodo", nuevo_regla.periodo)
