@@ -1,4 +1,4 @@
-from monitor_ambiente import logger
+
 from faker import Faker
 import logging
 from core.hash import generate_hash
@@ -32,9 +32,9 @@ class TestAmbiente:
     def setUp(self):
         self.data_factory = Faker()
         return {
-            "usuario": self.data_factory.name,
+            "usuario": str(self.data_factory.name()),
             "medicion": str(self.data_factory.random_int(100, 200)),
-            "perido":  str(self.data_factory.random_int(100, 200))
+            "periodo":  str(self.data_factory.random_int(100, 200))
         }
 
 
@@ -55,9 +55,10 @@ if __name__ == "__main__":
         usuario_token = login_data["token"]
 
         headers = {'Content-Type': 'application/json', "Authorization": "Bearer {}".format(usuario_token)}
-        url="http://localhost:5002/monitor_ambiente/{}/reglas".format(id_usuario)
+        url="http://localhost:5010/monitor_ambiente/{}/reglas".format(id_usuario)
 
         payload=TestAmbiente().setUp()
+        print(payload)
         request_hash = generate_hash(payload, codigo_seguridad)
         payload["hash"] = request_hash
         caso_aleatorio = random.randrange(0, 100)
