@@ -6,16 +6,14 @@ db = SQLAlchemy()
 
 class ReglasAperturas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    usuario = db.Column(db.String(50))
+    id_usuario = db.Column(db.Integer)
     objeto_apertura = db.Column(db.String(50))
     temporizador = db.Column(db.String(50))
     hora_apertura = db.Column(db.String(50))
     hora_cierre = db.Column(db.String(50))
     fecha_creacion = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-class Llave(db.Model):
-    pass
-
 class ReglasAperturasSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = ReglasAperturas
+
