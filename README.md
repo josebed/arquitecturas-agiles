@@ -1,5 +1,57 @@
 # Seguridad ABC
 
+# Experimento 2
+
+## Video Experimento 2
+
+https://uniandes-my.sharepoint.com/:v:/g/personal/je_bedoya_uniandes_edu_co/ERxsb-uy5hVBgLB8MLD1mUMBihwrxD-uP4hXx-wMx1-WKw?e=98iIiO
+
+## Ejecucion del experimento
+
+1. Install Virtualenv and activate it
+```sh
+$ virtualenv -p python3 venv
+```
+```sh
+$ source venv/bin/activate
+```
+2. Install requirements.txt
+```sh
+$ pip3 install -r requirements.txt
+```
+
+## Ejecución
+
+se ingresas a **usuarios**, **monitor_ambiente**, **monitor_aperturas**, **monitor_salud** y se ejecuta el comando
+```sh
+$ python3 app.py
+```
+Despues se procede a ingrase a cada carpeta mencionada anteriormente y se ingresa por cada una de ellas a
+la carpeta **pruebas** donde se encontrara un unico archivo el cual es la ejecución de pruebas y en cada uno de las 
+carpetas se deberar correr los siguentes comandos 
+
+**usuarios**
+```sh
+$ python3 consumo_usuarios.py
+```
+**monitor_ambiente**
+```sh
+$ python3 prueba_monitor_ambiente.py
+```
+**monitor_aperturas**
+```sh
+$ python3 consumo_monitor_aperturas.py
+```
+**monitor_salud** 
+```sh
+$ python3 consumo_monitor_salud.py
+```
+
+Despues de esto cada uno tendra un log donde se mostrara tanto como la app detecta los ataques, identifica actores y
+autentificara actores.
+
+# Experimento 1
+
 ## Video Experimento 1
 
 https://uniandes-my.sharepoint.com/:v:/g/personal/je_bedoya_uniandes_edu_co/EW4JVFt2lAFBjDhBcQhyl2MBy03yDwMDPG8QhR7iQpTwtQ?e=RBK3c2

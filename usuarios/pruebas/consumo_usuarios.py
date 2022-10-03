@@ -45,7 +45,7 @@ if __name__ == "__main__":
             logger.error(f'Usuario o contrasena equivocadas')
 
         else:
-            usuario = ['admin', 'usee1', 'user2'][random.randrange(0, 3)]
+            usuario = ['admin', 'user1', 'user2'][random.randrange(0, 3)]
             contrasena = str(data_factory.random_int(100, 200))
             login(usuario, contrasena)
             log_data = {'usuario': usuario}
