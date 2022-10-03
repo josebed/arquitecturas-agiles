@@ -1,29 +1,30 @@
 
+import logging
 import sqlite3
+
 
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from modelos import db, ReglasAmbiente, ReglasAmbienteSchema
-from monitor_ambiente import logger
 from core.hash import generate_hash
 
 
 class AgregarRegla(Resource):
     
-    @jwt_required
+    @jwt_required()
     def get(self, id_regla):
         return [ReglasAmbiente.dump(ap) for ap in
                 db.session.query().with_entities().filter(ReglasAmbienteSchema.id == id_regla).all()]
     
-    @jwt_required
+    @jwt_required()
     def post(self, id_usuario):
 
             db_connection = sqlite3.connect("../usuarios/usuarios.db")
             cur = db_connection.cursor()
             cur.execute('SELECT codigo_seguridad from usuario where id ={}'.format(id_usuario))
             usuario = cur.fetchone()
-            if usuarion is None:
+            if usuario is None:
                 return {'code':404, "message": "not found"}
             db_connection.close()
 
@@ -34,7 +35,7 @@ class AgregarRegla(Resource):
 
             if hash_enviado != codigo_hash:
                 log_data = {'clientip': '127.0.0.1', 'id_usuario': id_usuario}
-                logger.error("Data alterada", extra=log_data)
+                logging.error("Data alterada", extra=log_data)
                 return {"code": 2010, "message": "Accion no realizada"}
 
             try:
@@ -54,7 +55,7 @@ class AgregarRegla(Resource):
                 logger.error(f'This is an ERROR message {e}')
                 return {"mensaje": f"falta {e}"}
     
-    @jwt_required
+    @jwt_required()
     def put(self, id_regla):
 
         codigo_seguridad = "123456"

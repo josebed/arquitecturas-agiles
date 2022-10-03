@@ -109,6 +109,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/Scripts
+greenlet.h
+pyvenv.cfg
 
 # Spyder project settings
 .spyderproject
@@ -130,3 +133,20 @@ dmypy.json
 .docker*
 # db files
 
+faker.exe
+python.exe
+pip3.10.exe
+pip.exe
+pythonw.exe
+rq.exe
+rqinfo.exe
+rqworker.exe
+flask.exe
+normalizer.exe
+pip3.exe
+activate.ps1
+deactivate.bat
+activate.bat
+activate
+usuarios.db
+monitor_ambiente.db

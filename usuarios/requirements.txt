@@ -7,4 +7,3 @@ marshmallow-sqlalchemy
 requests
 redis
 rq
-flask_jwt_extended
