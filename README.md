@@ -2,6 +2,8 @@
 
 # Experimento 2
 
+nota: cada integrante trabajo en una rama y hizo el merge con develop
+
 ## Video Experimento 2
 
 https://uniandes-my.sharepoint.com/:v:/g/personal/je_bedoya_uniandes_edu_co/ERxsb-uy5hVBgLB8MLD1mUMBihwrxD-uP4hXx-wMx1-WKw?e=98iIiO
